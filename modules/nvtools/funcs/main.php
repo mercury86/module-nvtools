@@ -541,7 +541,7 @@ if ( $savedata )
                 $content_sql .= "\$sql_create_module = \$sql_drop_module;\n";
                 $content_sql .= $sql_create;
                 $content_sql .= "?>";
-                file_put_contents( NV_ROOTDIR . "/" . NV_TEMP_DIR . "/" . $tempdir . "/modules/" . $data_system['module_name'] . "/action.php", $content_sql, LOCK_EX );
+                file_put_contents( NV_ROOTDIR . "/" . NV_TEMP_DIR . "/" . $tempdir . "/modules/" . $data_system['module_name'] . "/action_mysql.php", $content_sql, LOCK_EX );
             }
 
             $array_folder_module = array();
