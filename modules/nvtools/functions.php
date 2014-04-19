@@ -91,5 +91,3 @@ function nv_mkdir_nvtools ( $path, $dir_name, $index_file = 0, $htaccess = 0 )
         1, sprintf( $lang_global['directory_was_created'], $dir_name ), $path . $dir_name
     );
 }
-
-?>

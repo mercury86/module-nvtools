@@ -150,7 +150,7 @@ if ( $savedata )
     {
         if ( $nv_Request->get_string( 'download', 'post', 0 ) )
         {
-            $tempdir = 'nv3_module_' . $data_system['module_name'] . '_' . md5( nv_genpass( 10 ) . session_id() );
+            $tempdir = 'nv4_module_' . $data_system['module_name'] . '_' . md5( nv_genpass( 10 ) . session_id() );
             if ( is_dir( NV_ROOTDIR . "/" . NV_TEMP_DIR . "/" . $tempdir ) )
             {
                 nv_deletefile( NV_ROOTDIR . "/" . NV_TEMP_DIR . "/" . $tempdir, true );
@@ -269,8 +269,7 @@ if ( $savedata )
                 file_put_contents( NV_ROOTDIR . "/" . NV_TEMP_DIR . "/" . $tempdir . "/modules/" . $data_system['module_name'] . "/language/admin_en.php", $content_lang, LOCK_EX );
 
                 $content_langvi .= "\$lang_module['save'] = 'Save';\n";
-                $content_langvi .= "\n";
-                $content_langvi .= "?>";
+
                 file_put_contents( NV_ROOTDIR . "/" . NV_TEMP_DIR . "/" . $tempdir . "/modules/" . $data_system['module_name'] . "/language/admin_vi.php", $content_langvi, LOCK_EX );
 
                 //js admin
@@ -300,8 +299,6 @@ if ( $savedata )
                     $config_RssData .= NV_FILEHEAD . "\n\n";
                     $config_RssData .= "if ( ! defined( 'NV_IS_MOD_RSS' ) ) die( 'Stop!!!' );\n\n";
                     $config_RssData .= file_get_contents( NV_ROOTDIR . "/modules/" . $module_file . "/modules/rssdata.tpl" );
-                    $config_RssData .= "\n";
-                    $config_RssData .= "?>";
 
                     file_put_contents( NV_ROOTDIR . "/" . NV_TEMP_DIR . "/" . $tempdir . "/modules/" . $data_system['module_name'] . "/rssdata.php", $config_RssData, LOCK_EX );
                     unset( $config_RssData );
@@ -310,8 +307,6 @@ if ( $savedata )
                     $config_Rss .= NV_FILEHEAD . "\n\n";
                     $config_Rss .= "if ( ! defined( 'NV_IS_MOD_" . strtoupper( $data_system['module_data'] ) . "' ) ) die( 'Stop!!!' );\n\n";
                     $config_Rss .= file_get_contents( NV_ROOTDIR . "/modules/" . $module_file . "/modules/rss.tpl" );
-                    $config_Rss .= "\n";
-                    $config_Rss .= "?>";
 
                     file_put_contents( NV_ROOTDIR . "/" . NV_TEMP_DIR . "/" . $tempdir . "/modules/" . $data_system['module_name'] . "/funcs/rss.php", $config_Rss, LOCK_EX );
                     unset( $config_Rss );
@@ -324,8 +319,6 @@ if ( $savedata )
                     $config_Sitemap .= NV_FILEHEAD . "\n\n";
                     $config_Sitemap .= "if ( ! defined( 'NV_IS_MOD_" . strtoupper( $data_system['module_data'] ) . "' ) ) die( 'Stop!!!' );\n\n";
                     $config_Sitemap .= file_get_contents( NV_ROOTDIR . "/modules/" . $module_file . "/modules/Sitemap.tpl" );
-                    $config_Sitemap .= "\n";
-                    $config_Sitemap .= "?>";
 
                     file_put_contents( NV_ROOTDIR . "/" . NV_TEMP_DIR . "/" . $tempdir . "/modules/" . $data_system['module_name'] . "/funcs/Sitemap.php", $config_Sitemap, LOCK_EX );
                     unset( $config_Sitemap );
@@ -335,14 +328,13 @@ if ( $savedata )
                 $content_functions = "<?php\n\n";
                 $content_functions .= NV_FILEHEAD . "\n\n";
                 $content_functions .= "if ( ! defined( 'NV_SYSTEM' ) ) die( 'Stop!!!' );\n\n";
-                $content_functions .= "define( 'NV_IS_MOD_" . strtoupper( $data_system['module_data'] ) . "', true );\n\n";
-                $content_functions .= "?>";
+                $content_functions .= "define( 'NV_IS_MOD_" . strtoupper( $data_system['module_data'] ) . "', true );";
                 file_put_contents( NV_ROOTDIR . "/" . NV_TEMP_DIR . "/" . $tempdir . "/modules/" . $data_system['module_name'] . "/functions.php", $content_functions, LOCK_EX );
 
                 // 	theme.php
                 $content_theme = "<?php\n\n";
                 $content_theme .= NV_FILEHEAD . "\n\n";
-                $content_theme .= "if ( ! defined( 'NV_IS_MOD_" . strtoupper( $data_system['module_data'] ) . "' ) ) die( 'Stop!!!' );\n\n";
+                $content_theme .= "if ( ! defined( 'NV_IS_MOD_" . strtoupper( $data_system['module_data'] ) . "' ) ) die( 'Stop!!!' );";
 
                 // 	lang Site
                 $content_lang = "<?php\n\n";
@@ -400,8 +392,7 @@ if ( $savedata )
                         $content .= "echo nv_site_theme( \$contents );\n";
                     }
                     $content .= "include NV_ROOTDIR . '/includes/footer.php';\n";
-                    $content .= "\n";
-                    $content .= "?>";
+
                     file_put_contents( NV_ROOTDIR . "/" . NV_TEMP_DIR . "/" . $tempdir . "/modules/" . $data_system['module_name'] . "/funcs/" . $data_i['file'] . ".php", $content, LOCK_EX );
 
                     //	tpl
@@ -426,15 +417,11 @@ if ( $savedata )
                     if ( $data_i['file'] == "search" ) $is_search = true;
 
                 }
-                $content_theme .= "?>";
+
                 file_put_contents( NV_ROOTDIR . "/" . NV_TEMP_DIR . "/" . $tempdir . "/modules/" . $data_system['module_name'] . "/theme.php", $content_theme, LOCK_EX );
 
-                $content_lang .= "\n";
-                $content_lang .= "?>";
                 file_put_contents( NV_ROOTDIR . "/" . NV_TEMP_DIR . "/" . $tempdir . "/modules/" . $data_system['module_name'] . "/language/en.php", $content_lang, LOCK_EX );
 
-                $content_langvi .= "\n";
-                $content_langvi .= "?>";
                 file_put_contents( NV_ROOTDIR . "/" . NV_TEMP_DIR . "/" . $tempdir . "/modules/" . $data_system['module_name'] . "/language/vi.php", $content_langvi, LOCK_EX );
 
                 //Search
@@ -444,8 +431,6 @@ if ( $savedata )
                     $config_Search .= NV_FILEHEAD . "\n\n";
                     $config_Search .= "if ( ! defined( 'NV_IS_MOD_SEARCH' ) ) die( 'Stop!!!' );\n\n";
                     $config_Search .= file_get_contents( NV_ROOTDIR . "/modules/" . $module_file . "/modules/search.tpl" );
-                    $config_Search .= "\n";
-                    $config_Search .= "?>";
 
                     file_put_contents( NV_ROOTDIR . "/" . NV_TEMP_DIR . "/" . $tempdir . "/modules/" . $data_system['module_name'] . "/search.php", $config_Search, LOCK_EX );
                     unset( $config_Search );
@@ -506,8 +491,7 @@ if ( $savedata )
             }
 
             $content_version .= "\t\t'note' => '" . $data_system['note'] . "'\n";
-            $content_version .= "\t);\n\n";
-            $content_version .= "?>";
+            $content_version .= "\t);";
             file_put_contents( NV_ROOTDIR . "/" . NV_TEMP_DIR . "/" . $tempdir . "/modules/" . $data_system['module_name'] . "/version.php", $content_version, LOCK_EX );
 
             //Siteinfo
@@ -515,8 +499,6 @@ if ( $savedata )
             $config_Siteinfo .= NV_FILEHEAD . "\n\n";
             $config_Siteinfo .= "if ( ! defined( 'NV_IS_FILE_SITEINFO' ) ) die( 'Stop!!!' );\n\n";
             $config_Siteinfo .= file_get_contents( NV_ROOTDIR . "/modules/" . $module_file . "/modules/siteinfo.tpl" );
-            $config_Siteinfo .= "\n";
-            $config_Siteinfo .= "?>";
 
             file_put_contents( NV_ROOTDIR . "/" . NV_TEMP_DIR . "/" . $tempdir . "/modules/" . $data_system['module_name'] . "/siteinfo.php", $config_Siteinfo, LOCK_EX );
             unset( $config_Siteinfo );
@@ -540,7 +522,7 @@ if ( $savedata )
                 $content_sql .= "\n";
                 $content_sql .= "\$sql_create_module = \$sql_drop_module;\n";
                 $content_sql .= $sql_create;
-                $content_sql .= "?>";
+
                 file_put_contents( NV_ROOTDIR . "/" . NV_TEMP_DIR . "/" . $tempdir . "/modules/" . $data_system['module_name'] . "/action_mysql.php", $content_sql, LOCK_EX );
             }
 
@@ -557,7 +539,7 @@ if ( $savedata )
             //Download file
             require_once ( NV_ROOTDIR . '/includes/class/download.class.php' );
 
-            $download = new download( $file_src, NV_ROOTDIR . "/" . NV_TEMP_DIR, "nv3_module_" . $data_system['module_name'] . ".zip" );
+            $download = new download( $file_src, NV_ROOTDIR . "/" . NV_TEMP_DIR, "nv4_module_" . $data_system['module_name'] . ".zip" );
             $download->download_file();
             exit();
         }
@@ -645,5 +627,3 @@ $contents = $xtpl->text( 'main' );
 include ( NV_ROOTDIR . "/includes/header.php" );
 echo nv_site_theme( $contents );
 include ( NV_ROOTDIR . "/includes/footer.php" );
-
-?>

@@ -9,5 +9,3 @@
  */
 
 if ( ! defined( 'NV_IS_MOD_NVTOOLS' ) ) die( 'Stop!!!' );
-
-?>

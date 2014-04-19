@@ -79,7 +79,7 @@
                 </td>
             </tr>
         </tbody>
-        
+
         <tbody class="second">
             <tr>
                 <td>
@@ -99,7 +99,7 @@
                     <input type="checkbox" class="noStyle" name="is_Sitemap" value="1" {DATA_SYSTEM.is_Sitemapcheckbox}/>
                 </td>
             </tr>
-        </tbody>        
+        </tbody>
     </table>
     <table id="adminitems" class="tab1">
         <caption>
@@ -119,7 +119,7 @@
                 </td>
                 <td>
                 	{LANG.title_vi}
-                </td>                
+                </td>
                 <td>
                     {LANG.file_ajax}
                 </td>
@@ -172,7 +172,7 @@
                 </td>
                 <td>
                 	{LANG.title_vi}
-                </td>                
+                </td>
                 <td>
                     {LANG.file_ajax}
                 </td>
@@ -268,7 +268,7 @@
     var items_sql = '{ITEMS_SQL}';
     $("#nvtools_module").submit(function(event)
     {
-        for (var i = 1; i <= items_sql; i++) 
+        for (var i = 1; i <= items_sql; i++)
         {
             sql = $("#idsqltable_" + i).val();
             if(sql!=''){

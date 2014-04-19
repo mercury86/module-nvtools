@@ -17,12 +17,12 @@ $array_doctype_page = array( 'htmlTrans' => $lang_module['htmlTrans'], 'htmlStri
 $array_additional = array( '0' => $lang_global['no'], '2' => $lang_module['equalheightcolumns'], '1' => $lang_module['footerStick'] );
 
 $array_layout = array();
-$array_layout[] = array( 'value' => 'body', 'text' => "Body" );
-$array_layout[] = array( 'value' => 'body-right', 'text' => "Body Right" );
-$array_layout[] = array( 'value' => 'body-left-right', 'text' => " Body Left Right" );
-$array_layout[] = array( 'value' => 'left-body', 'text' => "Left Body" );
-$array_layout[] = array( 'value' => 'left-body-right', 'text' => "Left Body Right" );
-$array_layout[] = array( 'value' => 'left-right-body', 'text' => "Left Right Body" );
+$array_layout[] = array( 'value' => 'body', 'text' => 'Body' );
+$array_layout[] = array( 'value' => 'body-right', 'text' => 'Body Right' );
+$array_layout[] = array( 'value' => 'body-left-right', 'text' => ' Body Left Right' );
+$array_layout[] = array( 'value' => 'left-body', 'text' => 'Left Body' );
+$array_layout[] = array( 'value' => 'left-body-right', 'text' => 'Left Body Right' );
+$array_layout[] = array( 'value' => 'left-right-body', 'text' => 'Left Right Body' );
 
 $theme_info = array();
 $data_positions = array();
@@ -103,77 +103,77 @@ if ( $savedata )
     {
         $tempdir = 'theme_' . $theme_info['theme'] . '_' . md5( nv_genpass( 10 ) . session_id() );
 
-        if ( is_dir( NV_ROOTDIR . "/" . NV_TEMP_DIR . "/" . $tempdir ) )
+        if ( is_dir( NV_ROOTDIR . '/' . NV_TEMP_DIR . '/' . $tempdir ) )
         {
-            nv_deletefile( NV_ROOTDIR . "/" . NV_TEMP_DIR . "/" . $tempdir, true );
+            nv_deletefile( NV_ROOTDIR . '/' . NV_TEMP_DIR . '/' . $tempdir, true );
         }
-        nv_mkdir_nvtools( NV_ROOTDIR . "/" . NV_TEMP_DIR, $tempdir );
+        nv_mkdir_nvtools( NV_ROOTDIR . '/' . NV_TEMP_DIR, $tempdir );
 
-        $mkdir = nv_mkdir_nvtools( NV_ROOTDIR . "/" . NV_TEMP_DIR . "/" . $tempdir, $theme_info['theme'], 1 );
+        $mkdir = nv_mkdir_nvtools( NV_ROOTDIR . '/' . NV_TEMP_DIR . '/' . $tempdir, $theme_info['theme'], 1 );
         if ( $mkdir[0] )
         {
-            $theme_dir = NV_ROOTDIR . "/" . NV_TEMP_DIR . "/" . $tempdir . "/" . $theme_info['theme'];
-            $theme_default_dir = NV_ROOTDIR . "/modules/" . $module_file . "/theme";
+            $theme_dir = NV_ROOTDIR . '/' . NV_TEMP_DIR . '/' . $tempdir . '/' . $theme_info['theme'];
+            $theme_default_dir = NV_ROOTDIR . '/modules/' . $module_file . '/theme';
 
             nv_mkdir_nvtools( $theme_dir, 'blocks', 1, 1 );
             nv_mkdir_nvtools( $theme_dir, 'css', 1 );
             nv_mkdir_nvtools( $theme_dir, 'images', 1 );
-            nv_mkdir_nvtools( $theme_dir . "/images", 'admin', 1 );
-            nv_mkdir_nvtools( $theme_dir . "/images", 'icons', 1 );
-            nv_mkdir_nvtools( $theme_dir . "/images", 'arrows', 1 );
+            nv_mkdir_nvtools( $theme_dir . '/images', 'admin', 1 );
+            nv_mkdir_nvtools( $theme_dir . '/images', 'icons', 1 );
+            nv_mkdir_nvtools( $theme_dir . '/images', 'arrows', 1 );
             nv_mkdir_nvtools( $theme_dir, 'js', 1 );
 
             nv_mkdir_nvtools( $theme_dir, 'layout', 1, 1 );
             nv_mkdir_nvtools( $theme_dir, 'modules', 1, 1 );
             nv_mkdir_nvtools( $theme_dir, 'system', 1, 1 );
 
-            nv_copyfile( $theme_default_dir . "/default.jpg", $theme_dir . "/" . $theme_info['theme'] . ".jpg" );
-            nv_copyfile( $theme_default_dir . "/favicon.ico", $theme_dir . "/favicon.ico" );
+            nv_copyfile( $theme_default_dir . '/default.jpg', $theme_dir . '/' . $theme_info['theme'] . '.jpg' );
+            nv_copyfile( $theme_default_dir . '/favicon.ico', $theme_dir . '/favicon.ico' );
 
-            nv_copyfile( $theme_default_dir . "/system/error_info.tpl", $theme_dir . "/system/error_info.tpl" );
-            nv_copyfile( $theme_default_dir . "/system/flood_blocker.tpl", $theme_dir . "/system/flood_blocker.tpl" );
-            nv_copyfile( $theme_default_dir . "/system/info_die.tpl", $theme_dir . "/system/info_die.tpl" );
+            nv_copyfile( $theme_default_dir . '/system/error_info.tpl', $theme_dir . '/system/error_info.tpl' );
+            nv_copyfile( $theme_default_dir . '/system/flood_blocker.tpl', $theme_dir . '/system/flood_blocker.tpl' );
+            nv_copyfile( $theme_default_dir . '/system/info_die.tpl', $theme_dir . '/system/info_die.tpl' );
 
-            nv_copyfile( $theme_default_dir . "/layout/block.default.tpl", $theme_dir . "/layout/block.default.tpl" );
-            nv_copyfile( $theme_default_dir . "/layout/block.no_title.tpl", $theme_dir . "/layout/block.no_title.tpl" );
+            nv_copyfile( $theme_default_dir . '/layout/block.default.tpl', $theme_dir . '/layout/block.default.tpl' );
+            nv_copyfile( $theme_default_dir . '/layout/block.no_title.tpl', $theme_dir . '/layout/block.no_title.tpl' );
 
-            nv_copyfile( $theme_default_dir . "/blocks/global.banners.tpl", $theme_dir . "/blocks/global.banners.tpl" );
-            nv_copyfile( $theme_default_dir . "/blocks/global.rss.tpl", $theme_dir . "/blocks/global.rss.tpl" );
+            nv_copyfile( $theme_default_dir . '/blocks/global.banners.tpl', $theme_dir . '/blocks/global.banners.tpl' );
+            nv_copyfile( $theme_default_dir . '/blocks/global.rss.tpl', $theme_dir . '/blocks/global.rss.tpl' );
 
-            nv_copyfile( $theme_default_dir . "/css/ie6.css", $theme_dir . "/css/ie6.css" );
-            nv_copyfile( $theme_default_dir . "/css/admin.css", $theme_dir . "/css/admin.css" );
-            nv_copyfile( $theme_default_dir . "/css/tab_info.css", $theme_dir . "/css/tab_info.css" );
+            nv_copyfile( $theme_default_dir . '/css/ie6.css', $theme_dir . '/css/ie6.css' );
+            nv_copyfile( $theme_default_dir . '/css/admin.css', $theme_dir . '/css/admin.css' );
+            nv_copyfile( $theme_default_dir . '/css/tab_info.css', $theme_dir . '/css/tab_info.css' );
 
-            $images_array = scandir( $theme_default_dir . "/images" );
-            $images_array = array_diff( $images_array, array( ".", ".." ) );
+            $images_array = scandir( $theme_default_dir . '/images' );
+            $images_array = array_diff( $images_array, array( '.', '..' ) );
             foreach ( $images_array as $file )
             {
-                nv_copyfile( $theme_default_dir . "/images/admin/" . $file, $theme_dir . "/images/admin/" . $file );
+                nv_copyfile( $theme_default_dir . '/images/admin/' . $file, $theme_dir . '/images/admin/' . $file );
             }
 
-            $images_array = scandir( $theme_default_dir . "/images/admin" );
-            $images_array = array_diff( $images_array, array( ".", ".." ) );
+            $images_array = scandir( $theme_default_dir . '/images/admin' );
+            $images_array = array_diff( $images_array, array( '.', '..' ) );
             foreach ( $images_array as $file )
             {
-                nv_copyfile( $theme_default_dir . "/images/admin/" . $file, $theme_dir . "/images/admin/" . $file );
+                nv_copyfile( $theme_default_dir . '/images/admin/' . $file, $theme_dir . '/images/admin/' . $file );
             }
 
-            $images_array = scandir( $theme_default_dir . "/images/arrows" );
-            $images_array = array_diff( $images_array, array( ".", ".." ) );
+            $images_array = scandir( $theme_default_dir . '/images/arrows' );
+            $images_array = array_diff( $images_array, array( '.', '..' ) );
             foreach ( $images_array as $file )
             {
-                nv_copyfile( $theme_default_dir . "/images/arrows/" . $file, $theme_dir . "/images/arrows/" . $file );
+                nv_copyfile( $theme_default_dir . '/images/arrows/' . $file, $theme_dir . '/images/arrows/' . $file );
             }
 
-            $images_array = scandir( $theme_default_dir . "/images/icons" );
-            $images_array = array_diff( $images_array, array( ".", ".." ) );
+            $images_array = scandir( $theme_default_dir . '/images/icons' );
+            $images_array = array_diff( $images_array, array( '.', '..' ) );
             foreach ( $images_array as $file )
             {
-                nv_copyfile( $theme_default_dir . "/images/icons/" . $file, $theme_dir . "/images/icons/" . $file );
+                nv_copyfile( $theme_default_dir . '/images/icons/' . $file, $theme_dir . '/images/icons/' . $file );
             }
 
             //config.ini
-            $xtpl = new XTemplate( "config.tpl", NV_ROOTDIR . "/modules/" . $module_file . "/theme" );
+            $xtpl = new XTemplate( 'config.tpl', NV_ROOTDIR . '/modules/' . $module_file . '/theme' );
             $xtpl->assign( 'THEME_INFO', $theme_info );
             foreach ( $data_positions as $data )
             {
@@ -182,45 +182,45 @@ if ( $savedata )
             }
             $xtpl->parse( 'main' );
             $config_ini = $xtpl->text( 'main' );
-            file_put_contents( $theme_dir . "/config.ini", trim($config_ini), LOCK_EX );
+            file_put_contents( $theme_dir . '/config.ini', trim($config_ini), LOCK_EX );
             unset( $config_ini );
 
             //screen.css
             if ( $theme_css['additional'] == 1 )
             {
-                $file_name_css = "screen.stick.css";
+                $file_name_css = 'screen.stick.css';
             }
             elseif ( $theme_css['additional'] == 2 )
             {
-                $file_name_css = "screen.equal.css";
+                $file_name_css = 'screen.equal.css';
             }
             else
             {
-                $file_name_css = "screen.css";
+                $file_name_css = 'screen.css';
             }
-            $xtpl = new XTemplate( $file_name_css, NV_ROOTDIR . "/modules/" . $module_file . "/theme/css" );
+            $xtpl = new XTemplate( $file_name_css, NV_ROOTDIR . '/modules/' . $module_file . '/theme/css' );
 
-            if ( $theme_css['pagetype'] == "pageleft" )
+            if ( $theme_css['pagetype'] == 'pageleft' )
             {
-                $theme_css['pageAlign'] = "0";
+                $theme_css['pageAlign'] = '0';
             }
             else
             {
-                $theme_css['pageAlign'] = "auto";
+                $theme_css['pageAlign'] = 'auto';
             }
 
-            if ( $theme_css['pagetype'] == "pagefull" )
+            if ( $theme_css['pagetype'] == 'pagefull' )
             {
                 $theme_css['max_width'] = $theme_css['pageWidthValue'];
             }
 
             $xtpl->assign( 'THEME_CSS', $theme_css );
-            if ( $theme_css['css_reset'] == "none" )
+            if ( $theme_css['css_reset'] == 'none' )
             {
                 $xtpl->parse( 'main.css_reset' );
             }
 
-            if ( $theme_css['pagetype'] == "pagefull" )
+            if ( $theme_css['pagetype'] == 'pagefull' )
             {
                 $xtpl->parse( 'main.pageFull_wrapper' );
                 $xtpl->parse( 'main.pageFull_footer' );
@@ -232,29 +232,29 @@ if ( $savedata )
                 $xtpl->parse( 'main.pageFixed_footer' );
             }
 
-            $prefix_layout = ( $theme_css['additional'] == 2 ) ? "layout.equal." : "layout.";
+            $prefix_layout = ( $theme_css['additional'] == 2 ) ? 'layout.equal.' : 'layout.';
             $array_check_positions = array( 'MENU_SITE', 'LEFT', 'RIGHT', 'FOOTER_SITE' );
 
             foreach ( $data_layout as $layout_i )
             {
-                $xtpl->parse( 'main.' . str_replace( "-", "_", $layout_i ) );
-                $content_layout = file_get_contents( $theme_default_dir . "/layout/" . $prefix_layout . $layout_i . ".tpl" );
+                $xtpl->parse( 'main.' . str_replace( '-', '_', $layout_i ) );
+                $content_layout = file_get_contents( $theme_default_dir . '/layout/' . $prefix_layout . $layout_i . '.tpl' );
                 foreach ( $array_check_positions as $position )
                 {
                     if ( ! in_array( $position, $position_tag ) )
                     {
-                        $content_layout = str_replace( "[" . $position . "]", "", $content_layout );
+                        $content_layout = str_replace( '[' . $position . ']', '', $content_layout );
                     }
                 }
-                file_put_contents( $theme_dir . "/layout/layout." . $layout_i . ".tpl", $content_layout, LOCK_EX );
+                file_put_contents( $theme_dir . '/layout/layout.' . $layout_i . '.tpl', $content_layout, LOCK_EX );
             }
 
             $xtpl->parse( 'main' );
             $config_css = $xtpl->text( 'main' );
-            file_put_contents( $theme_dir . "/css/screen.css", $config_css, LOCK_EX );
+            file_put_contents( $theme_dir . '/css/screen.css', $config_css, LOCK_EX );
             unset( $config_css );
 
-            if ( $theme_css['horizontalMenuHeight'] > 0 and in_array( "MENU_SITE", $position_tag ) )
+            if ( $theme_css['horizontalMenuHeight'] > 0 and in_array( 'MENU_SITE', $position_tag ) )
             {
                 $content_menu_site = "<div id=\"navigation\">[MENU_SITE]</div>";
             }
@@ -523,5 +523,3 @@ $contents = $xtpl->text( 'main' );
 include ( NV_ROOTDIR . "/includes/header.php" );
 echo nv_site_theme( $contents );
 include ( NV_ROOTDIR . "/includes/footer.php" );
-
-?>

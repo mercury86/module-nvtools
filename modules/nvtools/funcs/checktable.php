@@ -8,8 +8,7 @@
  * @Createdate Thu, 16 Jan 2014 01:06:59 GMT
  */
 
-if( ! defined( 'NV_IS_MOD_NVTOOLS' ) )
-	die( 'Stop!!!' );
+if( ! defined( 'NV_IS_MOD_NVTOOLS' ) ) die( 'Stop!!!' );
 
 $page_title = $lang_module['SiteTitleModule'];
 $key_words = $module_info['keywords'];
@@ -65,4 +64,3 @@ if( ! empty( $contents ) )
 include (NV_ROOTDIR . "/includes/header.php");
 echo nv_site_theme( $contents );
 include (NV_ROOTDIR . "/includes/footer.php");
-?>

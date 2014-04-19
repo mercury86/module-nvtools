@@ -22,6 +22,3 @@ $module_version = array(
 		'uploads_dir' => array($module_name),
 		'note' => 'Công cụ xây dựng site'
 	);
-
-
-?>
