@@ -12,8 +12,8 @@ if ( ! defined( 'NV_MAINFILE' ) ) die( 'Stop!!!' );
 
 $module_version = array(
 		'name' => 'nvtools',
-		'modfuncs' => 'main,theme,checktable',
-		'submenu' => 'main,theme,checktable',
+		'modfuncs' => 'main,theme,checktable,data',
+		'submenu' => 'main,theme,checktable,data',
 		'is_sysmod' => 0,
 		'virtual' => 0,
 		'version' => '4.0.0',
