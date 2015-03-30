@@ -29,8 +29,13 @@ if ( $savedata )
 
     $data_system['version1'] = $nv_Request->get_int( 'version1', 'post', 0 );
     $data_system['version2'] = $nv_Request->get_int( 'version2', 'post', 0 );
-    $data_system['version3'] = $nv_Request->get_int( 'version3', 'post', 0 );
+    $data_system['version3'] = str_pad( $nv_Request->get_int( 'version3', 'post', 0 ), 2, "0", STR_PAD_LEFT);  ;
     $data_system['note'] = $nv_Request->get_string( 'note', 'post', 0 );
+
+    $data_system['author_name'] = $nv_Request->get_string( 'author_name', 'post', 0 );
+    $data_system['author_email'] = $nv_Request->get_string( 'author_email', 'post', 0 );
+
+	define( 'AUTHOR_FILEHEAD', "/**\n * @Project NUKEVIET 4.x\n * @Author " . $data_system['author_name'] . " (" . $data_system['author_email'] . ")\n * @Copyright (C) " . gmdate( "Y" ) . " " . $data_system['author_name'] . ". All rights reserved\n * @License GNU/GPL version 2 or any later version\n * @Createdate " . gmdate( "D, d M Y H:i:s" ) . " GMT\n */" );
 
     $data_system['uploads'] = $nv_Request->get_string( 'uploads', 'post', 0 );
     $data_system['files'] = $nv_Request->get_string( 'files', 'post', 0 );
@@ -112,6 +117,7 @@ if ( $savedata )
             {
                 $sql = $matches[2];
                 $table = $tablename[$key];
+				$setlang = preg_match( "/" . $db_config['prefix'] . "\_([a-z]{2}+)\_/", $matches[1] ) ? 1 : 0;
                 if ( ! empty( $table ) )
                 {
                     $table = str_replace( "_", "-", $table );
@@ -131,7 +137,7 @@ if ( $savedata )
                     $table = preg_replace( "/^" . nv_preg_quote( NV_PREFIXLANG . '_' ) . "(.*)$/", "\\1", $table );
                     $table = preg_replace( "/^" . nv_preg_quote( $db_config['prefix'] . '_' ) . "(.*)$/", "\\1", $table );
                 }
-                $data_sql[] = array( 'table' => $table, 'sql' => $sql );
+                $data_sql[] = array( 'table' => $table, 'sql' => $sql, 'setlang' => $setlang );
             }
             elseif ( strlen( $sql ) > 10 )
             {
@@ -142,7 +148,7 @@ if ( $savedata )
                     $table = change_alias( $table );
                     $table = str_replace( "-", "_", $table );
                 }
-                $data_sql[] = array( 'table' => $table, 'sql' => $sql );
+                $data_sql[] = array( 'table' => $table, 'sql' => $sql, 'setlang' => 1 );
             }
         }
     }
@@ -166,6 +172,10 @@ if ( $savedata )
 
             nv_mkdir_nvtools( NV_ROOTDIR . "/" . NV_TEMP_DIR . "/" . $tempdir, "themes" );
 
+			//file config.ini
+			$content = "[extension]\nid=\"0\"\ntype=\"module\"\nname=\"" . $data_system['module_name'] . "\"\nversion=\"" . $data_system['version1'] . "." . $data_system['version2'] . "." . $data_system['version3'] . "\"\n\n[author]\nname=\"" . $data_system['author_name'] . "\"\nemail=\"" . $data_system['author_email'] . "\"\n\n[note]\ntext=\"" . $data_system['note'] . "\"\n";
+            file_put_contents( NV_ROOTDIR . "/" . NV_TEMP_DIR . "/" . $tempdir . "/config.ini", $content, LOCK_EX );
+
             if ( ! empty( $data_admin ) )
             {
                 nv_mkdir_nvtools( NV_ROOTDIR . "/" . NV_TEMP_DIR . "/" . $tempdir . "/modules/" . $data_system['module_name'], "admin", 1, 1 );
@@ -179,17 +189,17 @@ if ( $savedata )
 
                 // 	admin.functions.php
                 $content_admin_functions = "<?php\n\n";
-                $content_admin_functions .= NV_FILEHEAD . "\n\n";
+                $content_admin_functions .= AUTHOR_FILEHEAD . "\n\n";
                 $content_admin_functions .= "if ( ! defined( 'NV_ADMIN' ) or ! defined( 'NV_MAINFILE' ) or ! defined( 'NV_IS_MODADMIN' ) ) die( 'Stop!!!' );\n\n";
 
                 // 	lang admin
                 $content_lang = "<?php\n\n";
-                $content_lang .= NV_FILEHEAD . "\n\n";
+                $content_lang .= AUTHOR_FILEHEAD . "\n\n";
                 $content_lang .= "if ( ! defined( 'NV_MAINFILE' ) ) die( 'Stop!!!' );\n\n";
 
-                $content_lang .= "\$lang_translator['author'] = 'VINADES.,JSC (contact@vinades.vn)';\n";
+                $content_lang .= "\$lang_translator['author'] = '" . $data_system['author_name'] . " (" . $data_system['author_email'] . ")';\n";
                 $content_lang .= "\$lang_translator['createdate'] = '" . gmdate( "d/m/Y, H:i" ) . "';\n";
-                $content_lang .= "\$lang_translator['copyright'] = '@Copyright (C) " . gmdate( "Y" ) . " VINADES.,JSC. All rights reserved';\n";
+                $content_lang .= "\$lang_translator['copyright'] = '@Copyright (C) " . gmdate( "Y" ) . " " . $data_system['author_name'] . " All rights reserved';\n";
                 $content_lang .= "\$lang_translator['info'] = '';\n";
                 $content_lang .= "\$lang_translator['langtype'] = 'lang_module';\n\n";
 
@@ -218,7 +228,7 @@ if ( $savedata )
                     $content_langvi .= "\$lang_module['" . $data_i['file'] . "'] = '" . $lang_value . "';\n";
 
                     $content = "<?php\n\n";
-                    $content .= NV_FILEHEAD . "\n\n";
+                    $content .= AUTHOR_FILEHEAD . "\n\n";
                     $content .= "if ( ! defined( 'NV_IS_FILE_ADMIN' ) ) die( 'Stop!!!' );\n\n";
 
                     $content .= "\$xtpl = new XTemplate( \$op . '.tpl', NV_ROOTDIR . '/themes/' . \$global_config['module_theme'] . '/modules/' . \$module_file );\n";
@@ -245,9 +255,7 @@ if ( $savedata )
                         $content_admin_functions .= "\$submenu['" . $data_i['file'] . "'] = \$lang_module['" . $data_i['file'] . "'];\n";
                         $content .= "echo nv_admin_theme( \$contents );\n";
                     }
-                    $content .= "include NV_ROOTDIR . '/includes/footer.php';\n";
-                    $content .= "\n";
-                    $content .= "?>";
+                    $content .= "include NV_ROOTDIR . '/includes/footer.php';";
                     file_put_contents( NV_ROOTDIR . "/" . NV_TEMP_DIR . "/" . $tempdir . "/modules/" . $data_system['module_name'] . "/admin/" . $data_i['file'] . ".php", $content, LOCK_EX );
 
                     //	tpl
@@ -255,7 +263,7 @@ if ( $savedata )
                     $content .= "	<form action=\"{NV_BASE_ADMINURL}index.php?{NV_LANG_VARIABLE}={NV_LANG_DATA}&amp;{NV_NAME_VARIABLE}={MODULE_NAME}&amp;{NV_OP_VARIABLE}={OP}\" method=\"post\">\n";
                     $content .= "		<div style=\"text-align: center\"><input name=\"submit\" type=\"submit\" value=\"{LANG.save}\" /></div>\n";
                     $content .= "	</form>\n";
-                    $content .= "<!-- END: main -->\n";
+                    $content .= "<!-- END: main -->";
                     file_put_contents( NV_ROOTDIR . "/" . NV_TEMP_DIR . "/" . $tempdir . "/themes/admin_default/modules/" . $data_system['module_name'] . "/" . $data_i['file'] . ".tpl", $content, LOCK_EX );
                 }
                 $content_admin_functions .= "\n\$allow_func = array( '" . implode( "', '", $array_allow_func ) . "');\n\n";
@@ -273,10 +281,10 @@ if ( $savedata )
                 file_put_contents( NV_ROOTDIR . "/" . NV_TEMP_DIR . "/" . $tempdir . "/modules/" . $data_system['module_name'] . "/language/admin_vi.php", $content_langvi, LOCK_EX );
 
                 //js admin
-                file_put_contents( NV_ROOTDIR . "/" . NV_TEMP_DIR . "/" . $tempdir . "/modules/" . $data_system['module_name'] . "/js/admin.js", NV_FILEHEAD, LOCK_EX );
+                file_put_contents( NV_ROOTDIR . "/" . NV_TEMP_DIR . "/" . $tempdir . "/modules/" . $data_system['module_name'] . "/js/admin.js", AUTHOR_FILEHEAD, LOCK_EX );
 
                 //css admin
-                file_put_contents( NV_ROOTDIR . "/" . NV_TEMP_DIR . "/" . $tempdir . "/themes/admin_default/css/" . $data_system['module_name'] . ".css", NV_FILEHEAD, LOCK_EX );
+                file_put_contents( NV_ROOTDIR . "/" . NV_TEMP_DIR . "/" . $tempdir . "/themes/admin_default/css/" . $data_system['module_name'] . ".css", AUTHOR_FILEHEAD, LOCK_EX );
             }
             // tao file cho Site
             $array_modfuncs = array();
@@ -296,7 +304,7 @@ if ( $savedata )
                 if ( $data_system['is_rss'] )
                 {
                     $config_RssData = "<?php\n\n";
-                    $config_RssData .= NV_FILEHEAD . "\n\n";
+                    $config_RssData .= AUTHOR_FILEHEAD . "\n\n";
                     $config_RssData .= "if ( ! defined( 'NV_IS_MOD_RSS' ) ) die( 'Stop!!!' );\n\n";
                     $config_RssData .= file_get_contents( NV_ROOTDIR . "/modules/" . $module_file . "/modules/rssdata.tpl" );
 
@@ -304,7 +312,7 @@ if ( $savedata )
                     unset( $config_RssData );
 
                     $config_Rss = "<?php\n\n";
-                    $config_Rss .= NV_FILEHEAD . "\n\n";
+                    $config_Rss .= AUTHOR_FILEHEAD . "\n\n";
                     $config_Rss .= "if ( ! defined( 'NV_IS_MOD_" . strtoupper( $data_system['module_data'] ) . "' ) ) die( 'Stop!!!' );\n\n";
                     $config_Rss .= file_get_contents( NV_ROOTDIR . "/modules/" . $module_file . "/modules/rss.tpl" );
 
@@ -316,7 +324,7 @@ if ( $savedata )
                 if ( $data_system['is_Sitemap'] )
                 {
                     $config_Sitemap = "<?php\n\n";
-                    $config_Sitemap .= NV_FILEHEAD . "\n\n";
+                    $config_Sitemap .= AUTHOR_FILEHEAD . "\n\n";
                     $config_Sitemap .= "if ( ! defined( 'NV_IS_MOD_" . strtoupper( $data_system['module_data'] ) . "' ) ) die( 'Stop!!!' );\n\n";
                     $config_Sitemap .= file_get_contents( NV_ROOTDIR . "/modules/" . $module_file . "/modules/Sitemap.tpl" );
 
@@ -326,22 +334,22 @@ if ( $savedata )
 
                 // 	functions.php
                 $content_functions = "<?php\n\n";
-                $content_functions .= NV_FILEHEAD . "\n\n";
+                $content_functions .= AUTHOR_FILEHEAD . "\n\n";
                 $content_functions .= "if ( ! defined( 'NV_SYSTEM' ) ) die( 'Stop!!!' );\n\n";
                 $content_functions .= "define( 'NV_IS_MOD_" . strtoupper( $data_system['module_data'] ) . "', true );";
                 file_put_contents( NV_ROOTDIR . "/" . NV_TEMP_DIR . "/" . $tempdir . "/modules/" . $data_system['module_name'] . "/functions.php", $content_functions, LOCK_EX );
 
                 // 	theme.php
                 $content_theme = "<?php\n\n";
-                $content_theme .= NV_FILEHEAD . "\n\n";
+                $content_theme .= AUTHOR_FILEHEAD . "\n\n";
                 $content_theme .= "if ( ! defined( 'NV_IS_MOD_" . strtoupper( $data_system['module_data'] ) . "' ) ) die( 'Stop!!!' );";
 
                 // 	lang Site
                 $content_lang = "<?php\n\n";
-                $content_lang .= NV_FILEHEAD . "\n\n";
+                $content_lang .= AUTHOR_FILEHEAD . "\n\n";
                 $content_lang .= "if ( ! defined( 'NV_MAINFILE' ) ) die( 'Stop!!!' );\n\n";
 
-                $content_lang .= "\$lang_translator['author'] = 'VINADES.,JSC (contact@vinades.vn)';\n";
+                $content_lang .= "\$lang_translator['author'] = '" . $data_system['author_name'] . " (" . $data_system['author_email'] . ")';\n";
                 $content_lang .= "\$lang_translator['createdate'] = '" . gmdate( "d/m/Y, H:i" ) . "';\n";
                 $content_lang .= "\$lang_translator['copyright'] = '@Copyright (C) " . gmdate( "Y" ) . " VINADES.,JSC. All rights reserved';\n";
                 $content_lang .= "\$lang_translator['info'] = '';\n";
@@ -370,7 +378,7 @@ if ( $savedata )
                     $content_langvi .= "\$lang_module['" . $data_i['file'] . "'] = '" . $lang_value . "';\n";
 
                     $content = "<?php\n\n";
-                    $content .= NV_FILEHEAD . "\n\n";
+                    $content .= AUTHOR_FILEHEAD . "\n\n";
                     $content .= "if ( ! defined( 'NV_IS_MOD_" . strtoupper( $data_system['module_data'] ) . "' ) ) die( 'Stop!!!' );\n\n";
 
                     $content .= "\$page_title = \$module_info['custom_title'];\n";
@@ -398,7 +406,7 @@ if ( $savedata )
                     //	tpl
                     file_put_contents( NV_ROOTDIR . "/" . NV_TEMP_DIR . "/" . $tempdir . "/themes/default/modules/" . $data_system['module_name'] . "/" . $data_i['file'] . ".tpl", "<!-- BEGIN: main -->\n" . $data_i['file'] . "\n<!-- END: main -->", LOCK_EX );
 
-                    $content_theme .= "/**\n";
+                    $content_theme .= "\n\n/**\n";
                     $content_theme .= " * nv_theme_" . $data_system['module_data'] . "_" . $data_i['file'] . "()\n";
                     $content_theme .= " * \n";
                     $content_theme .= " * @param mixed \$array_data\n";
@@ -412,7 +420,7 @@ if ( $savedata )
                     $content_theme .= "    \n\n";
                     $content_theme .= "    \$xtpl->parse( 'main' );\n";
                     $content_theme .= "    return \$xtpl->text( 'main' );\n";
-                    $content_theme .= "}\n\n";
+                    $content_theme .= "}";
 
                     if ( $data_i['file'] == "search" ) $is_search = true;
 
@@ -428,7 +436,7 @@ if ( $savedata )
                 if ( $is_search )
                 {
                     $config_Search = "<?php\n\n";
-                    $config_Search .= NV_FILEHEAD . "\n\n";
+                    $config_Search .= AUTHOR_FILEHEAD . "\n\n";
                     $config_Search .= "if ( ! defined( 'NV_IS_MOD_SEARCH' ) ) die( 'Stop!!!' );\n\n";
                     $config_Search .= file_get_contents( NV_ROOTDIR . "/modules/" . $module_file . "/modules/search.tpl" );
 
@@ -437,24 +445,25 @@ if ( $savedata )
                 }
 
                 //	JS
-                file_put_contents( NV_ROOTDIR . "/" . NV_TEMP_DIR . "/" . $tempdir . "/modules/" . $data_system['module_name'] . "/js/user.js", NV_FILEHEAD, LOCK_EX );
+                file_put_contents( NV_ROOTDIR . "/" . NV_TEMP_DIR . "/" . $tempdir . "/modules/" . $data_system['module_name'] . "/js/user.js", AUTHOR_FILEHEAD, LOCK_EX );
 
                 //	css
-                file_put_contents( NV_ROOTDIR . "/" . NV_TEMP_DIR . "/" . $tempdir . "/themes/default/css/" . $data_system['module_name'] . ".css", NV_FILEHEAD, LOCK_EX );
+                file_put_contents( NV_ROOTDIR . "/" . NV_TEMP_DIR . "/" . $tempdir . "/themes/default/css/" . $data_system['module_name'] . ".css", AUTHOR_FILEHEAD, LOCK_EX );
             }
             // 	version
             $content_version = "<?php\n\n";
-            $content_version .= NV_FILEHEAD . "\n\n";
+            $content_version .= AUTHOR_FILEHEAD . "\n\n";
             $content_version .= "if ( ! defined( 'NV_MAINFILE' ) ) die( 'Stop!!!' );\n\n";
             $content_version .= "\$module_version = array(\n";
-            $content_version .= "\t\t'name' => '" . ucfirst( $data_system['module_name'] ) . "',\n";
-            $content_version .= "\t\t'modfuncs' => '" . implode( ",", $array_modfuncs ) . "',\n";
-            $content_version .= "\t\t'submenu' => '" . implode( ",", $array_submenu ) . "',\n";
-            $content_version .= "\t\t'is_sysmod' => " . $data_system['is_sysmod'] . ",\n";
-            $content_version .= "\t\t'virtual' => " . $data_system['virtual'] . ",\n";
-            $content_version .= "\t\t'version' => '" . $data_system['version1'] . "." . $data_system['version2'] . "." . $data_system['version3'] . "',\n";
-            $content_version .= "\t\t'date' => '" . gmdate( "D, j M Y H:i:s" ) . " GMT',\n";
-            $content_version .= "\t\t'author' => 'VINADES (contact@vinades.vn)',\n";
+            $content_version .= "\t'name' => '" . ucfirst( $data_system['module_name'] ) . "',\n";
+            $content_version .= "\t'modfuncs' => '" . implode( ",", $array_modfuncs ) . "',\n";
+            $content_version .= "\t'change_alias' => '" . implode( ",", $array_modfuncs ) . "',\n";
+            $content_version .= "\t'submenu' => '" . implode( ",", $array_submenu ) . "',\n";
+            $content_version .= "\t'is_sysmod' => " . $data_system['is_sysmod'] . ",\n";
+            $content_version .= "\t'virtual' => " . $data_system['virtual'] . ",\n";
+            $content_version .= "\t'version' => '" . $data_system['version1'] . "." . $data_system['version2'] . "." . $data_system['version3'] . "',\n";
+            $content_version .= "\t'date' => '" . gmdate( "D, j M Y H:i:s" ) . " GMT',\n";
+            $content_version .= "\t'author' => '" . $data_system['author_name'] . " (" . $data_system['author_email'] . ")',\n";
 
             $array_uploads = array();
             $array_uploads[] = "\$module_name";
@@ -471,7 +480,7 @@ if ( $savedata )
                     }
                 }
             }
-            $content_version .= "\t\t'uploads_dir' => array(" . implode( ",", $array_uploads ) . "),\n";
+            $content_version .= "\t'uploads_dir' => array(" . implode( ",", $array_uploads ) . "),\n";
 
             if ( ! empty( $data_system['files'] ) )
             {
@@ -487,16 +496,16 @@ if ( $savedata )
                         $array_files[] = "\$module_name.'/" . $value . "'";
                     }
                 }
-                $content_version .= "\t\t'files_dir' => array(" . implode( ",", $array_files ) . "),\n";
+                $content_version .= "\t'files_dir' => array(" . implode( ",", $array_files ) . "),\n";
             }
 
-            $content_version .= "\t\t'note' => '" . $data_system['note'] . "'\n";
-            $content_version .= "\t);";
+            $content_version .= "\t'note' => '" . $data_system['note'] . "'\n";
+            $content_version .= ");";
             file_put_contents( NV_ROOTDIR . "/" . NV_TEMP_DIR . "/" . $tempdir . "/modules/" . $data_system['module_name'] . "/version.php", $content_version, LOCK_EX );
 
             //Siteinfo
             $config_Siteinfo = "<?php\n\n";
-            $config_Siteinfo .= NV_FILEHEAD . "\n\n";
+            $config_Siteinfo .= AUTHOR_FILEHEAD . "\n\n";
             $config_Siteinfo .= "if ( ! defined( 'NV_IS_FILE_SITEINFO' ) ) die( 'Stop!!!' );\n\n";
             $config_Siteinfo .= file_get_contents( NV_ROOTDIR . "/modules/" . $module_file . "/modules/siteinfo.tpl" );
 
@@ -509,13 +518,24 @@ if ( $savedata )
                 foreach ( $data_sql as $data )
                 {
                     $table = ( $data['table'] != "" ) ? "_" . $data['table'] : "";
-                    $sql_drop .= "\$sql_drop_module[] = \"DROP TABLE IF EXISTS `\".\$db_config['prefix'].\"_\".\$lang.\"_\".\$module_data.\"" . $table . "`\";\n\n";
-                    $temp = "\$sql_create_module[] = \"CREATE TABLE `\".\$db_config['prefix'].\"_\".\$lang.\"_\".\$module_data.\"" . $table . "` (\n" . $data['sql'] . "\n) ENGINE=MyISAM;\";";
+					$sql_drop .= "\$sql_drop_module[] = \"DROP TABLE IF EXISTS `\" . \$db_config['prefix'] . \"";
+                    if($data['setlang'])
+                    {
+						$sql_drop .= "_\" . \$lang . \"";
+                    }
+					$sql_drop .= "_\" . \$module_data . \"" . $table . "`\";\n\n";
+
+                    $temp = "\$sql_create_module[] = \"CREATE TABLE `\" . \$db_config['prefix'] . \"";
+                    if($data['setlang'])
+                    {
+						$temp .= "_\" . \$lang . \"";
+                    }
+                    $temp .= "_\" . \$module_data . \"" . $table . "` (\n" . $data['sql'] . "\n) ENGINE=MyISAM;\";";
                     $sql_create .= preg_replace( "/(\r\n)+|(\n|\r)+/", "\r\n", $temp ) . "\n\n";
                 }
 
                 $content_sql = "<?php\n\n";
-                $content_sql .= NV_FILEHEAD . "\n\n";
+                $content_sql .= AUTHOR_FILEHEAD . "\n\n";
                 $content_sql .= "if ( ! defined( 'NV_MAINFILE' ) ) die( 'Stop!!!' );\n\n";
                 $content_sql .= "\$sql_drop_module = array();\n";
                 $content_sql .= $sql_drop;
@@ -523,11 +543,12 @@ if ( $savedata )
                 $content_sql .= "\$sql_create_module = \$sql_drop_module;\n";
                 $content_sql .= $sql_create;
 
-                file_put_contents( NV_ROOTDIR . "/" . NV_TEMP_DIR . "/" . $tempdir . "/modules/" . $data_system['module_name'] . "/action_mysql.php", $content_sql, LOCK_EX );
+                file_put_contents( NV_ROOTDIR . "/" . NV_TEMP_DIR . "/" . $tempdir . "/modules/" . $data_system['module_name'] . "/action_mysql.php", trim( $content_sql ), LOCK_EX );
             }
 
             $array_folder_module = array();
             $array_folder_module[] = NV_ROOTDIR . "/" . NV_TEMP_DIR . "/" . $tempdir;
+
             //Zip module
             $file_src = NV_ROOTDIR . '/' . NV_TEMP_DIR . '/' . NV_TEMPNAM_PREFIX . $tempdir . '.zip';
             require_once NV_ROOTDIR . '/includes/class/pclzip.class.php';
@@ -548,6 +569,8 @@ if ( $savedata )
 else
 {
     $data_system['module_name'] = $data_system['module_data'] = 'samples';
+    $data_system['author_name'] = 'VINADES.,JSC';
+    $data_system['author_email'] = 'contact@vinades.vn';
     $data_system['is_sysmod'] = 0;
     $data_system['virtual'] = 1;
     $data_system['is_rss'] = 1;

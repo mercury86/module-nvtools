@@ -8,13 +8,17 @@
  * @Createdate Sat, 19 Mar 2011 16:50:45 GMT
  */
 
-if ( ! defined( 'NV_MAINFILE' ) ) die( 'Stop!!!' );
+if ( !defined( 'NV_MAINFILE' ) )
+	die( 'Stop!!!' );
 
 $lang_translator['author'] = 'VINADES.,JSC (contact@vinades.vn)';
 $lang_translator['createdate'] = '19/03/2011, 16:50';
 $lang_translator['copyright'] = '@Copyright (C) 2011 VINADES.,JSC. All rights reserved';
 $lang_translator['info'] = '';
 $lang_translator['langtype'] = 'lang_module';
+
+$lang_module['error_title'] = 'Lỗi truy cập';
+$lang_module['error_content'] = 'Module cần truy cập từ localhost và đăng nhập quản trị tối cao';
 
 $lang_module['main'] = 'Xây dựng module';
 $lang_module['theme'] = 'Xây dựng theme';
@@ -31,6 +35,9 @@ $lang_module['nvtools_search'] = 'Tìm kiếm';
 $lang_module['system_tools'] = 'Các chức năng hệ thống';
 $lang_module['module_name'] = 'Tên module';
 $lang_module['version'] = 'Phiên bản';
+$lang_module['author_name'] = 'Tên tác giả';
+$lang_module['author_email'] = 'Email tác giả';
+
 $lang_module['note'] = 'Thông tin ghi chú';
 $lang_module['uploads'] = 'Các thư mục uploads của module';
 $lang_module['files'] = 'Các thư mục files của module';
@@ -126,3 +133,23 @@ $lang_module['is_Sitemap'] = 'Tạo Sitemap.xml';
 
 $lang_module['SiteTitleModule'] = 'Tạo Module';
 $lang_module['SiteTitleTheme'] = 'Tạo Giao diện';
+
+$lang_module['field_type'] = 'Loại dữ liệu';
+$lang_module['field_type_int'] = 'Số nguyên';
+$lang_module['field_type_float'] = 'Số thực';
+$lang_module['field_type_date'] = 'Ngày/Tháng/Năm';
+$lang_module['field_type_time'] = 'Giờ:Phút Ngày/Tháng/Năm';
+$lang_module['field_type_email'] = 'Email';
+$lang_module['field_type_url'] = 'Url';
+$lang_module['field_type_textbox'] = 'Textbox';
+$lang_module['field_type_password'] = 'Password';
+$lang_module['field_type_textfile'] = 'Textbox chọn file';
+$lang_module['field_type_textalias'] = 'Textbox alias url';
+$lang_module['field_type_textarea'] = 'Textarea';
+$lang_module['field_type_editor'] = 'Editor';
+$lang_module['field_type_select'] = 'Selectbox';
+$lang_module['field_type_radio'] = 'Radio';
+$lang_module['field_type_checkbox'] = 'Checkbox';
+$lang_module['field_type_checkbox_groups'] = 'Checkbox phân quyền';
+
+$lang_module['field_no_us'] = 'Lỗi: Không sử dụng cột dữ liệu có tên %s';

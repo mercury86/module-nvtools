@@ -32,7 +32,7 @@ if ( preg_match( '/^[a-zA-Z0-9\_]+$/', $tablename ) )
 	$func = $nv_Request->get_title( 'func', 'post' );
 	if ( $func == 'pdo_insert' )
 	{
-		$_tmp_keyvalue = array( );
+		$_tmp_keyvalue = array();
 		$txt_bindParam = '';
 		$txt_post = "\$row = array();\n";
 		foreach ( $item as $key => $_row )

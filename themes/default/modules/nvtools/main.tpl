@@ -1,6 +1,6 @@
 <!-- BEGIN: main -->
 <form id="nvtools_module" action="{NV_BASE_SITEURL}index.php?{NV_NAME_VARIABLE}={MODULE_NAME}&amp;{NV_OP_VARIABLE}={OP}" method="post">
-    <table class="tab1">
+    <table  class="table table-striped table-bordered table-hover">
         <caption>
             {LANG.system_tools}
         </caption>
@@ -14,8 +14,6 @@
                     <input type="text" name="module_name" style="width:150px;" value="{DATA_SYSTEM.module_name}" />
                 </td>
             </tr>
-        </tbody>
-        <tbody class="second">
             <tr>
                 <td>
                     {LANG.version}
@@ -24,8 +22,22 @@
                     <input type="text" name="version1" value="{DATA_SYSTEM.version1}" style="width:20px; text-align: center;" />.<input type="text" name="version2" value="{DATA_SYSTEM.version2}" style="width:20px; text-align: center;" />.<input type="text" name="version3" value="{DATA_SYSTEM.version3}" style="width:20px; text-align: center;" />
                 </td>
             </tr>
-        </tbody>
-        <tbody>
+            <tr>
+                <td>
+                    {LANG.author_name}
+                </td>
+                <td>
+                    <input type="text" name="author_name" value="{DATA_SYSTEM.author_name}" style="width:400px;" />
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    {LANG.author_email}
+                </td>
+                <td>
+                    <input type="email" name="author_email" value="{DATA_SYSTEM.author_email}" style="width:400px;" />
+                </td>
+            </tr>
             <tr>
                 <td>
                     {LANG.note}
@@ -34,8 +46,6 @@
                     <input type="text" name="note" value="{DATA_SYSTEM.note}" style="width:400px;" />
                 </td>
             </tr>
-        </tbody>
-        <tbody class="second">
             <tr>
                 <td>
                     {LANG.uploads}
@@ -46,8 +56,6 @@
 					{LANG.note_uploads}
                 </td>
             </tr>
-        </tbody>
-        <tbody>
             <tr>
                 <td>
                     {LANG.files}
@@ -58,8 +66,6 @@
 					{LANG.note_files}
                 </td>
             </tr>
-        </tbody>
-        <tbody class="second">
             <tr>
                 <td>
                     {LANG.is_sysmod}
@@ -68,8 +74,6 @@
                     <input type="checkbox" class="noStyle" name="is_sysmod" value="1" {DATA_SYSTEM.is_sysmodcheckbox}/>
                 </td>
             </tr>
-        </tbody>
-        <tbody>
             <tr>
                 <td>
                     {LANG.virtual}
@@ -78,9 +82,6 @@
                     <input type="checkbox" class="noStyle" name="virtual" value="1" {DATA_SYSTEM.virtualcheckbox}/>
                 </td>
             </tr>
-        </tbody>
-
-        <tbody class="second">
             <tr>
                 <td>
                     {LANG.is_rss}
@@ -89,8 +90,6 @@
                     <input type="checkbox" class="noStyle" name="is_rss" value="1" {DATA_SYSTEM.is_rsscheckbox}/>
                 </td>
             </tr>
-        </tbody>
-        <tbody>
             <tr>
                 <td>
                     {LANG.is_Sitemap}
@@ -101,28 +100,28 @@
             </tr>
         </tbody>
     </table>
-    <table id="adminitems" class="tab1">
+    <table id="adminitems" class="table table-striped table-bordered table-hover">
         <caption>
             {LANG.admin_tools}
         </caption>
-        <col style="width:5%"/><col style="width:20%"/><col style="width:30%"/>
+        <col style="width:10%"/><col style="width:20%"/><col style="width:30%"/>
         <thead align="center">
             <tr>
-                <td>
+                <th>
                     {LANG.number}
-				</td>
-                <td>
+				</th>
+                <th>
                 	{LANG.functionname}
-                </td>
-                <td>
+                </th>
+                <th>
                 	{LANG.title_en}
-                </td>
-                <td>
+                </th>
+                <th>
                 	{LANG.title_vi}
-                </td>
-                <td>
+                </th>
+                <th>
                     {LANG.file_ajax}
-                </td>
+                </th>
             </tr>
         </thead>
         <tfoot>
@@ -132,8 +131,8 @@
                 </td>
             </tr>
         </tfoot>
-		<!-- BEGIN: admin -->
-	        <tbody {DATA_ADMIN.class}>
+       	<tbody>
+			<!-- BEGIN: admin -->
 	            <tr>
 	                <td align="center">
 	                    {DATA_ADMIN.number}
@@ -151,31 +150,31 @@
 	                    <input type="checkbox" class="noStyle" name="adminajax[{DATA_ADMIN.number}]" value="1" {DATA_ADMIN.checkbox} />
 	                </td>
 	            </tr>
-	        </tbody>
-		<!-- END: admin -->
+			<!-- END: admin -->
+		</tbody>
     </table>
-    <table id="siteitems" class="tab1">
+    <table id="siteitems" class="table table-striped table-bordered table-hover">
         <caption>
             {LANG.site_tools}
         </caption>
-        <col style="width:5%"/><col style="width:20%"/><col style="width:30%"/>
+        <col style="width:10%"/><col style="width:20%"/><col style="width:30%"/>
         <thead align="center">
             <tr>
-                <td>
+                <th>
                     {LANG.number}
-				</td>
-                <td>
+				</th>
+                <th>
                 	{LANG.functionname}
-                </td>
-                <td>
+                </th>
+                <th>
                 	{LANG.title_en}
-                </td>
-                <td>
+                </th>
+                <th>
                 	{LANG.title_vi}
-                </td>
-                <td>
+                </th>
+                <th>
                     {LANG.file_ajax}
-                </td>
+                </th>
             </tr>
         </thead>
         <tfoot>
@@ -185,8 +184,8 @@
                 </td>
             </tr>
         </tfoot>
+        <tbody>
 		<!-- BEGIN: site -->
-        <tbody {DATA_SITE.class}>
             <tr>
                 <td align="center">
                     {DATA_SITE.number}
@@ -204,25 +203,25 @@
                     <input type="checkbox" class="noStyle" name="siteajax[{DATA_SITE.number}]" value="1" {DATA_SITE.checkbox} />
                 </td>
             </tr>
-        </tbody>
 		<!-- END: site -->
+        </tbody>
     </table>
-    <table id="sqlitems" class="tab1">
+    <table id="sqlitems" class="table table-striped table-bordered table-hover">
         <caption>
             {LANG.sql_tools}
         </caption>
-        <col style="width:5%"/><col style="width:20%"/>
+        <col style="width:10%"/><col style="width:20%"/>
         <thead align="center">
             <tr>
-                <td>
+                <th>
                     {LANG.number}
-                </td>
-                <td>
+                </th>
+                <th>
                     {LANG.table_name}
-                </td>
-                <td>
+                </th>
+                <th>
                     {LANG.code_sql}
-                </td>
+                </th>
             </tr>
         </thead>
         <tfoot>
@@ -237,9 +236,7 @@
             	<td colspan="3">{LANG.note_sql}
             	</td>
             </tr>
-        </tbody>
         <!-- BEGIN: sql -->
-        <tbody {DATA_SQL.class}>
             <tr>
                 <td align="center">
                     {DATA_SQL.number}
@@ -252,13 +249,13 @@
                     <textarea id="idsqltable_{DATA_SQL.number}" style="width:99%; height:150px;" rows="9" cols="80">{DATA_SQL.sql}</textarea>
                 </td>
             </tr>
-        </tbody>
         <!-- END: sql -->
+        </tbody>
     </table>
     <div style="text-align: center">
         <input name="savedata" type="hidden" value="1" />
-        <input id="submitmod" type="button" value="{LANG.action}" />
-        <input id="downloadmod" type="button" value="{LANG.download}" />
+        <input class="btn btn-primary" id="submitmod" type="button" value="{LANG.action}" />
+        <input class="btn btn-primary" id="downloadmod" type="button" value="{LANG.download}" />
     </div>
 </form>
 <script type="text/javascript">
@@ -266,6 +263,7 @@
     var items_admin = '{ITEMS_ADMIN}';
     var items_site = '{ITEMS_SITE}';
     var items_sql = '{ITEMS_SQL}';
+   	$.base64.utf8encode = true;
     $("#nvtools_module").submit(function(event)
     {
         for (var i = 1; i <= items_sql; i++)

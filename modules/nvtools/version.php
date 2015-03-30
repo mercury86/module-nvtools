@@ -11,14 +11,15 @@
 if ( ! defined( 'NV_MAINFILE' ) ) die( 'Stop!!!' );
 
 $module_version = array(
-		'name' => 'nvtools',
-		'modfuncs' => 'main,theme,checktable,data',
-		'submenu' => 'main,theme,checktable,data',
-		'is_sysmod' => 0,
-		'virtual' => 0,
-		'version' => '4.0.0',
-		'date' => 'Sat, 19 Mar 2011 16:50:45 GMT',
-		'author' => 'VINADES (contact@vinades.vn)',
-		'uploads_dir' => array($module_name),
-		'note' => 'Công cụ xây dựng site'
-	);
+	'name' => 'nvtools',
+	'modfuncs' => 'main,theme,data,addfun',
+	'submenu' => 'main,theme,data,addfun',
+	'is_sysmod' => 0,
+	'virtual' => 0,
+	'version' => '4.0.2',
+	'date' => 'Sat, 19 Mar 2011 16:50:45 GMT',
+	'author' => 'VINADES (contact@vinades.vn)',
+	'uploads_dir' => array($module_name),
+	'note' => 'Công cụ xây dựng site',
+	'layoutdefault' => 'body:main,theme,data,addfun'
+);

@@ -1,3 +1,4 @@
+/**
 $db->sqlreset()
 	->select( 'COUNT(*)' )
 	->from( NV_PREFIXLANG . '_' . $m_values['module_data'] . '_rows r')
@@ -21,6 +22,7 @@ if ( $all_page )
             'link' => $url,
             'title' => BoldKeywordInStr( $tilterow, $key, $logic ),
             'content' => BoldKeywordInStr( $content, $key, $logic )
-            );
+        );
     }
 }
+ */
