@@ -129,7 +129,7 @@ $lang_module['layoutname'] = 'Tên Layout';
 $lang_module['layoutdefault'] = 'Sử dụng làm layout mặc định';
 
 $lang_module['is_rss'] = 'Tạo chức năng rss';
-$lang_module['is_Sitemap'] = 'Tạo Sitemap.xml';
+$lang_module['is_sitemap'] = 'Tạo sitemap.xml';
 
 $lang_module['SiteTitleModule'] = 'Tạo Module';
 $lang_module['SiteTitleTheme'] = 'Tạo Giao diện';

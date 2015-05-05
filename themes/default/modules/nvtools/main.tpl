@@ -92,10 +92,10 @@
             </tr>
             <tr>
                 <td>
-                    {LANG.is_Sitemap}
+                    {LANG.is_sitemap}
                 </td>
                 <td>
-                    <input type="checkbox" class="noStyle" name="is_Sitemap" value="1" {DATA_SYSTEM.is_Sitemapcheckbox}/>
+                    <input type="checkbox" class="noStyle" name="is_sitemap" value="1" {DATA_SYSTEM.is_sitemapcheckbox}/>
                 </td>
             </tr>
         </tbody>

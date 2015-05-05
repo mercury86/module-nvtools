@@ -43,7 +43,7 @@ if ( $savedata )
     $data_system['is_sysmod'] = $nv_Request->get_int( 'is_sysmod', 'post', 0 );
     $data_system['virtual'] = $nv_Request->get_int( 'virtual', 'post', 0 );
     $data_system['is_rss'] = $nv_Request->get_int( 'is_rss', 'post', 0 );
-    $data_system['is_Sitemap'] = $nv_Request->get_int( 'is_Sitemap', 'post', 0 );
+    $data_system['is_sitemap'] = $nv_Request->get_int( 'is_sitemap', 'post', 0 );
 
     $adminfile = $nv_Request->get_typed_array( 'adminfile', 'post', 'string' );
     $admintitle = $nv_Request->get_typed_array( 'admintitle', 'post', 'string' );
@@ -320,16 +320,16 @@ if ( $savedata )
                     unset( $config_Rss );
                 }
 
-                //Sitemap
-                if ( $data_system['is_Sitemap'] )
+                //sitemap
+                if ( $data_system['is_sitemap'] )
                 {
-                    $config_Sitemap = "<?php\n\n";
-                    $config_Sitemap .= AUTHOR_FILEHEAD . "\n\n";
-                    $config_Sitemap .= "if ( ! defined( 'NV_IS_MOD_" . strtoupper( $data_system['module_data'] ) . "' ) ) die( 'Stop!!!' );\n\n";
-                    $config_Sitemap .= file_get_contents( NV_ROOTDIR . "/modules/" . $module_file . "/modules/Sitemap.tpl" );
+                    $config_sitemap = "<?php\n\n";
+                    $config_sitemap .= AUTHOR_FILEHEAD . "\n\n";
+                    $config_sitemap .= "if ( ! defined( 'NV_IS_MOD_" . strtoupper( $data_system['module_data'] ) . "' ) ) die( 'Stop!!!' );\n\n";
+                    $config_sitemap .= file_get_contents( NV_ROOTDIR . "/modules/" . $module_file . "/modules/sitemap.tpl" );
 
-                    file_put_contents( NV_ROOTDIR . "/" . NV_TEMP_DIR . "/" . $tempdir . "/modules/" . $data_system['module_name'] . "/funcs/Sitemap.php", $config_Sitemap, LOCK_EX );
-                    unset( $config_Sitemap );
+                    file_put_contents( NV_ROOTDIR . "/" . NV_TEMP_DIR . "/" . $tempdir . "/modules/" . $data_system['module_name'] . "/funcs/sitemap.php", $config_sitemap, LOCK_EX );
+                    unset( $config_sitemap );
                 }
 
                 // 	functions.php
@@ -574,7 +574,7 @@ else
     $data_system['is_sysmod'] = 0;
     $data_system['virtual'] = 1;
     $data_system['is_rss'] = 1;
-    $data_system['is_Sitemap'] = 1;
+    $data_system['is_sitemap'] = 1;
     $data_system['version1'] = 4;
     $data_system['version2'] = 0;
     $data_system['version3'] = 0;
@@ -589,7 +589,7 @@ else
 $data_system['is_sysmodcheckbox'] = ( $data_system['is_sysmod'] == 1 ) ? 'checked="checked"' : '';
 $data_system['virtualcheckbox'] = ( $data_system['virtual'] == 1 ) ? 'checked="checked"' : '';
 $data_system['is_rsscheckbox'] = ( $data_system['is_rss'] == 1 ) ? 'checked="checked"' : '';
-$data_system['is_Sitemapcheckbox'] = ( $data_system['is_Sitemap'] == 1 ) ? 'checked="checked"' : '';
+$data_system['is_sitemapcheckbox'] = ( $data_system['is_sitemap'] == 1 ) ? 'checked="checked"' : '';
 
 $xtpl = new XTemplate( "main.tpl", NV_ROOTDIR . "/themes/" . $module_info['template'] . "/modules/" . $module_file );
 $xtpl->assign( 'LANG', $lang_module );
